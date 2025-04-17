@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload-b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workload-b
+  template:
+    metadata:
+      labels:
+        app: workload-b
+        elotl-luna: "true"
+    spec:
+      containers:
+        - name: workload-b
+          image: narmidm/k8s-pod-cpu-stressor:latest
+          args:
+            - "-cpu=0.75"
+            - "-duration=300s"
+            - "-forever"
+          resources:
+            requests:
+              cpu: "100m"
